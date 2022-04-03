@@ -21,6 +21,7 @@ import itertools
 import json
 import logging
 import math
+import os
 import socket
 import sys
 import traceback
@@ -1499,8 +1500,25 @@ class Airflow(AirflowBaseView):
                     default_conf = json.dumps(dag.params, indent=4)
                 except TypeError:
                     flash("Could not pre-populate conf field due to non-JSON-serializable data-types")
+
+            target_config_file = 'cheng-group/none.html'
+            is_modified_by_cheng_group = 'no'
+            hidden=''
+
+            if os.path.isfile(f'airflow/www/templates/cheng-group/{dag_id}.html'):
+                target_config_file = f'cheng-group/{dag_id}.html'
+                is_modified_by_cheng_group = 'yes'
+                hidden='hidden'
+
             return self.render_template(
-                'airflow/trigger.html', dag_id=dag_id, origin=origin, conf=default_conf, doc_md=doc_md
+                'airflow/trigger.html',
+                dag_id=dag_id,
+                origin=origin,
+                conf=default_conf,
+                doc_md=doc_md,
+                is_modified_by_cheng_group=is_modified_by_cheng_group,
+                target=target_config_file,
+                hidden=hidden
             )
 
         dag_orm = session.query(models.DagModel).filter(models.DagModel.dag_id == dag_id).first()

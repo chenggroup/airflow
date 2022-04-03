@@ -30,15 +30,17 @@
   {{ super() }}
   <h2>Trigger DAG: {{ dag_id }}</h2>
   {{ dag_docs(doc_md) }}
+  {% include target %}
   <form method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="dag_id" value="{{ dag_id }}">
     <input type="hidden" name="origin" value="{{ origin }}">
-    <div class="form-group">
+    <input type="hidden" name="is_modified_by_cheng_group" value="{{ is_modified_by_cheng_group }}">
+    <div class="form-group {{ hidden }}">
       <label for="conf">Configuration JSON (Optional, must be a dict object)</label>
       <textarea class="form-control" name="conf" id="json">{{ conf }}</textarea>
     </div>
-    <p>
+    <p class="{{ hidden }}">
       To access configuration in your DAG use <code>{{ '{{ dag_run.conf }}' }}</code>.
     </p>
     <button type="submit" class="btn btn-primary">Trigger</button>
