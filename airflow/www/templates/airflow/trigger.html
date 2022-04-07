@@ -31,7 +31,7 @@
   <h2>Trigger DAG: {{ dag_id }}</h2>
   {{ dag_docs(doc_md) }}
   {% include target %}
-  <form method="POST">
+  <form method="POST" id='submit_form'>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="dag_id" value="{{ dag_id }}">
     <input type="hidden" name="origin" value="{{ origin }}">
@@ -46,10 +46,34 @@
     <button type="submit" class="btn btn-primary">Trigger</button>
     <button type="button" class="btn" onclick="location.href = '{{ origin }}'; return false">Cancel</button>
   </form>
+<script>
+  const submit_form = document.querySelector('#submit_form');
+  const property_form = document.querySelector('#property_form')
+  const is_modified_by_cheng_group = (document.querySelector('input[name="is_modified_by_cheng_group"]').getAttribute('value') === 'yes');
+
+  submit_form.addEventListener('submit', function (event) {
+    if (is_modified_by_cheng_group) {
+      let serialize_property_array = $("#property_form").serializeArray();
+      let conf_object = {};
+      serialize_property_array.forEach(element => {
+        let conf = element.name;
+        let value = element.value;
+        conf_object[conf] = value;
+      });
+      conf_string = JSON.stringify(conf_object);
+      submit_form.querySelector('textarea[name="conf"]').innerText = conf_string;
+    }
+
+  })
+
+</script>
 {% endblock %}
 
 {% block tail_js %}
+{# 如果写了模板，就不需要codemirrror.js了。 #}
+{% if is_modified_by_cheng_group == 'no' %}
   <script src="{{ url_for_asset('codemirror.js') }}"></script>
+{% endif %}
   <script src="{{ url_for_asset('javascript.js') }}"></script>
   <script src="{{ url_for_asset('lint.js') }}"></script>
   <script src="{{ url_for_asset('javascript-lint.js') }}"></script>
