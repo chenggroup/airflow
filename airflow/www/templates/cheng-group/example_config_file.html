@@ -1,8 +1,129 @@
-<!-- 
+{#
+
+配置文件为 jinja2-html 文件，语法请参考：https://jinja.palletsprojects.com/en/2.10.x/templates
 
 控件的编写参考：
-https://getbootstrap.com/docs/3.4/components/#input-groups 
-使用bootstrap 3.4主要是因为airflow默认用的3.4。
+https://getbootstrap.com/docs/3.4/components/#input-groups
+https://getbootstrap.com/docs/3.4/css/#forms
+也请参考 MDN：
+https://developer.mozilla.org/en-US/docs/Learn/Forms
 
--->
+会被序列化的元素，请参考：
+http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
 
+下面有一些常用控件的例子
+
+配置文件编写完成后，请以 {dag_id}.html 命名，放入同级目录。
+
+#}
+
+<br />{# 加一个空行，比较美观。 #}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-0">{# 控制模板宽度。如需修改，请参考：https://getbootstrap.com/docs/3.4/css/#grid #}
+            <form class="form-horizontal" id="property_form">{# 此表格不会实际上传，仅用作选项容器 #}
+
+                {# Email #}
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email{# 这里的 Email 是标签内容，给人看的 #}</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control property" id="inputEmail3" placeholder="Email"
+                               name="email">{# 此处name属性的值（即“email”）为键。请务必添加name属性并确保其值不会重复。 #}
+                    </div>
+                </div>
+
+                {# 密码 #}
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control property" id="inputPassword3" placeholder="Password"
+                               name="password">
+                    </div>
+                </div>
+
+                {# 单选框 #}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="property" name="remember_me"> Remember me
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                {# https://getbootstrap.com/docs/3.4/css/#textarea #}
+                {# https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea #}
+                {# 多行文本框 #}
+                <textarea class="form-control" name="textarea"></textarea>
+
+                {# https://getbootstrap.com/docs/3.4/css/#checkboxes-and-radios #}
+                {# checkboxes #}
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="checkbox1" name="checkbox1">
+                        Option one is this and that&mdash;be sure to include why it's great
+                    </label>
+                </div>
+                <div class="checkbox disabled">
+                    <label>
+                        <input type="checkbox" value="checkbox2" name="checkbox2" disabled>{# 注意，disabled 的元素不会被序列化上传 #}
+                        Option two is disabled
+                    </label>
+                </div>
+
+                {# radios #}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                        Option one is this and that&mdash;be sure to include why it's great
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        Option two can be something else and selecting it will deselect option one
+                    </label>
+                </div>
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>{# 注意，disabled 的元素不会被序列化上传 #}
+                        Option three is disabled
+                    </label>
+                </div>
+
+                {# https://getbootstrap.com/docs/3.4/css/#inline-checkboxes-and-radios #}
+                {# 单行checkboxes #}
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox1" name='option1' value="option1"> 1{# 这个1只是给人看的 #}
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox2" name='option2' value="option2"> 2
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox3" name='option3' value="option3"> 3
+                </label>
+                {# 单行radios #}
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                </label>
+
+                {# 下拉菜单 https://getbootstrap.com/docs/3.4/css/#selects #}
+                <select class="form-control" name="selects">
+                    <option value="1">1</option>{# value属性的值会上传。若无value属性，值就从选项元素的文本内容中获取。 #}
+                    <option value="2">2</option>{# 参考：https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option #}
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+<br />{# 加一个空行，比较美观。 #}
