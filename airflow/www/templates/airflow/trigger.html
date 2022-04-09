@@ -53,7 +53,7 @@
 
   submit_form.addEventListener('submit', function (event) {
     if (is_modified_by_cheng_group) {
-      let serialize_property_array = property_form.querySelectorAll('[name]')
+      let serialize_property_array = $("form#property_form [name]").serializeArray();
       let conf_object = {};
       serialize_property_array.forEach(element => {
         let conf = element.name;

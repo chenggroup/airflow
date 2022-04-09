@@ -7,6 +7,7 @@ https://getbootstrap.com/docs/3.4/components/#input-groups
 https://getbootstrap.com/docs/3.4/css/#forms
 也请参考 MDN：
 https://developer.mozilla.org/en-US/docs/Learn/Forms
+https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input
 
 会被序列化的元素，请参考：
 http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
@@ -50,17 +51,6 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
                     </div>
                 </div>
 
-                {# 单选框 #}
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" class="property" name="remember_me"> Remember me
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 {# https://getbootstrap.com/docs/3.4/css/#textarea #}
                 {# https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea #}
                 {# 多行文本框 #}
@@ -68,9 +58,10 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
 
                 {# https://getbootstrap.com/docs/3.4/css/#checkboxes-and-radios #}
                 {# checkboxes #}
+                {# https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input/checkbox #}
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="checkbox1" name="checkbox1">
+                        <input type="checkbox" value="checkbox1" name="checkbox1">{# 注意checkbox的value只有在被选中时才会上传 #}
                         Option one is this and that&mdash;be sure to include why it's great
                     </label>
                 </div>
@@ -82,6 +73,7 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
                 </div>
 
                 {# radios #}
+                {# https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input/radio #}
                 <div class="radio">
                     <label>
                         <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
