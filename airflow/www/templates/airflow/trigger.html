@@ -78,6 +78,8 @@
   <script src="{{ url_for_asset('lint.js') }}"></script>
   <script src="{{ url_for_asset('javascript-lint.js') }}"></script>
   <script src="{{ url_for_asset('jshint.js') }}"></script>
+{% if is_modified_by_cheng_group == 'no' %}
   <script src="{{ url_for_asset('trigger.js') }}"></script>
+{% endif %}
   {{ super() }}
 {% endblock %}
