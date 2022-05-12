@@ -57,7 +57,12 @@
       let conf_object = {};
       serialize_property_array.forEach(element => {
         let conf = element.name;
-        let value = element.value;
+        currently_processing_element = property_form.querySelector(`[name=${conf}]`);
+        if (currently_processing_element.hasAttribute("value-split-by")) {
+          var value = element.value.split(currently_processing_element.getAttribute("value-split-by"));
+        } else {
+          var value = element.value;
+        }
         conf_object[conf] = value;
       });
       conf_string = JSON.stringify(conf_object);

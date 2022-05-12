@@ -33,6 +33,17 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
                     </div>
                 </div>
 
+                {# 某些文本内容适合转化为列表后再发给后端 #}
+                {# 比如当用户输入一串元素名字时 例：K,Na,Ca 使用这里的代码，后端就可以直接收到list #}
+                <div class="form-group">
+                    <label for="input3" class="col-sm-2 control-label">elements</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K" name="elements" 
+                        value-split-by=",">
+                        {# value-split-by="," 属性表示此input输入的内容会以","为间隔断开，组成Array（后端会自动解析为Python list） #} 
+                    </div>
+                </div>
+
                 {# Email #}
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email{# 这里的 Email 是标签内容，给人看的 #}</label>
