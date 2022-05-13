@@ -30,7 +30,10 @@
   {{ super() }}
   <h2>Trigger DAG: {{ dag_id }}</h2>
   {{ dag_docs(doc_md) }}
+
+  <!-- 将target中的内容（即property_form）include到此处 -->
   {% include target %}
+  
   <form method="POST" id='submit_form' class="col-md-offset-1">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="dag_id" value="{{ dag_id }}">
@@ -75,6 +78,8 @@
     }
 
   })
+
+  
 
 </script>
 {% endblock %}
