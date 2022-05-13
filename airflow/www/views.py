@@ -1505,7 +1505,7 @@ class Airflow(AirflowBaseView):
             is_modified_by_cheng_group = 'no'
             hidden=''
 
-            if os.path.isfile(f'airflow/www/templates/cheng-group/{dag_id}.html'):
+            if os.path.isfile(os.path.join(os.path.dirname(__file__), f'templates/cheng-group/{dag_id}.html')):
                 target_config_file = f'cheng-group/{dag_id}.html'
                 is_modified_by_cheng_group = 'yes'
                 hidden='hidden'
