@@ -80,10 +80,12 @@
 
   })
 
+
+
   //验证表单内容合法性
   function update_validate_information (event){
-    let url_conf = event.target.getAttribute('validate-data');
-    let url_value = $(event.target).serializeArray()[0].value;
+    let url_conf = encodeURIComponent(event.target.getAttribute('validate-data'));
+    let url_value = encodeURIComponent($(event.target).serializeArray()[0].value);
     fetch('/validate_value?'+ url_conf + '=' + url_value).then((response) => {
       response.text().then((text) => {
         let hidden_div = event.target.parentElement.querySelector('div.alert');
