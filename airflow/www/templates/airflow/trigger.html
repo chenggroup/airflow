@@ -47,17 +47,20 @@
     <button type="button" class="btn" onclick="location.href = '{{ origin }}'; return false">Cancel</button>
   </form>
 <script>
+  //用户点击submit后，将property_form中的内容序列化并填入submit_form
   const submit_form = document.querySelector('#submit_form');
   const property_form = document.querySelector('#property_form')
   const is_modified_by_cheng_group = (document.querySelector('input[name="is_modified_by_cheng_group"]').getAttribute('value') === 'yes');
 
   submit_form.addEventListener('submit', function (event) {
     if (is_modified_by_cheng_group) {
+      //序列化property_form
       let serialize_property_array = $("form#property_form [name]").serializeArray();
       let conf_object = {};
       serialize_property_array.forEach(element => {
         let conf = element.name;
         currently_processing_element = property_form.querySelector(`[name=${conf}]`);
+        //如果有value-split-by属性，就按照该属性的值把内容分解为Array，方便后端读取
         if (currently_processing_element.hasAttribute("value-split-by")) {
           var value = element.value.split(currently_processing_element.getAttribute("value-split-by"));
         } else {
@@ -65,8 +68,10 @@
         }
         conf_object[conf] = value;
       });
+      //将序列化好的JSON对象转为字符串，填入submit_form
       conf_string = JSON.stringify(conf_object);
       submit_form.querySelector('textarea[name="conf"]').innerText = conf_string;
+      //浏览器会自动把submit_form上传给后端
     }
 
   })
