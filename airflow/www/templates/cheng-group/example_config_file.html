@@ -44,6 +44,41 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
                     </div>
                 </div>
 
+                {# 某些文本内容可以提前发给后端，检查内容是否合法 #}
+                {# 比如当用户输入一串元素名字时 例：K,Na,Ca 可以提前发给后端，检查元素名称是否有误 #}
+                <div class="form-group">
+                    <label for="input3" class="col-sm-2 control-label">elements</label>
+                    <div class="col-sm-10">
+                        <div class="alert alert-info" role="alert" type="hidden">
+                            <p class="message"></p>
+                            <p>
+                                如果您认为输入内容无误，您可以忽略此条消息，直接上传
+                            </p>
+                        </div>
+                        <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K" name="elements" 
+                        value-split-by="," validate-date="elements">
+                        {# value-split-by="," 属性表示此input输入的内容会以","为间隔断开，组成Array（后端会自动解析为Python list） #} 
+                        {# validate-date="elements"属性表示此文本内容会发送给后端的 /validate_data 并在其中使用 elements 对应的部分进行检查 #}
+                    </div>
+                </div>
+
+                {# 如果输入的是文件路径，可以提前发给服务端，看看路径有没有问题 #}
+                <div class="form-group">
+                  <label for="input4" class="col-sm-2 control-label">model</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control property" id="input4"
+                           placeholder="例如：/data/aiida_test/test_nmr/notes/data/tutorial/na_data_200/model_test"
+                           name="model" validate-strategy="change" validate-data="file">
+                           {# validate-date="file"属性表示此文本内容会发送给后端的 /validate_data 并在其中使用 file 对应的部分进行检查 #}
+                    <div class="alert alert-warning" role="alert" hidden>
+                      <p class="reason"></p>
+                      <p>
+                        请确保服务器上有此文件
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {# Email #}
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email{# 这里的 Email 是标签内容，给人看的 #}</label>

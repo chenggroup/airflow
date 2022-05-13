@@ -21,17 +21,31 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="input3" class="col-sm-2 control-label">elements</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K" name="elements" value-split-by=",">
+                  <label for="input3" class="col-sm-2 control-label">elements</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K"
+                           name="elements" value-split-by="," validate-strategy="change" validate-data="elements">
+                    <div class="alert alert-warning" role="alert" hidden>
+                      <p class="reason"></p>
+                      <p>
+                        如果您<b>确信</b>输入内容无误，您可以忽略此条消息
+                      </p>
                     </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
                     <label for="input4" class="col-sm-2 control-label">model</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control property" id="input4"
-                               placeholder="例如：/data/aiida_test/test_nmr/notes/data/tutorial/na_data_200/model_test" name="model">
+                               placeholder="例如：/data/aiida_test/test_nmr/notes/data/tutorial/na_data_200/model_test"
+                               name="model" validate-strategy="change" validate-data="file">
+                        <div class="alert alert-warning" role="alert" hidden>
+                          <p class="reason"></p>
+                          <p>
+                            请确保服务器上有此文件
+                          </p>
+                        </div>
                     </div>
                 </div>
                 

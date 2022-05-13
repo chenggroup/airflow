@@ -1561,6 +1561,38 @@ class Airflow(AirflowBaseView):
         flash(f"Triggered {dag_id}, it should start any moment now.")
         return redirect(origin)
 
+    @expose('/validate_value',methods=['GET'])
+    def validate_value(self):
+        # 检查元素名是否合法
+        if 'elements' in request.args:
+            value = request.args['elements'].strip()
+            # 检查是否有中文逗号
+            commas_warning = ''
+            if '，' in value:
+                commas_warning = ' 请使用英文逗号！'
+            # 合法的元素名，一直排到103号元素
+            # 如果允许输入同位素，请自行添加进下方集合
+            allowed_elements={'H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm','Md','No','Lr'}
+            wrong_elements = set()
+            for input_element in value.split(','):
+                if input_element not in allowed_elements:
+                    wrong_elements.add(input_element)
+            if len(wrong_elements) == 0:
+                return 'validated'
+            else:
+                return(f'<code>{"</code>、<code>".join(wrong_elements)}</code>并不是正确的化学元素名{commas_warning}')
+        # 检查是否存在对应文件/路径
+        elif 'file' in request.args:
+            value = request.args['file'].strip()
+            if os.path.isfile(value):
+                return 'validated'
+            else:
+                return f'服务器上没有<code>{value}</code>文件！'
+        else:
+            return '未定义检查方法'
+
+
+
     def _clear_dag_tis(
         self, dag, start_date, end_date, origin, recursive=False, confirmed=False, only_failed=False
     ):

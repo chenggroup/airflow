@@ -33,7 +33,7 @@
 
   <!-- 将target中的内容（即property_form）include到此处 -->
   {% include target %}
-  
+
   <form method="POST" id='submit_form' class="col-md-offset-1">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="dag_id" value="{{ dag_id }}">
@@ -65,7 +65,8 @@
         currently_processing_element = property_form.querySelector(`[name=${conf}]`);
         //如果有value-split-by属性，就按照该属性的值把内容分解为Array，方便后端读取
         if (currently_processing_element.hasAttribute("value-split-by")) {
-          var value = element.value.split(currently_processing_element.getAttribute("value-split-by"));
+          // 使用 trim() 去除前后空格，按照 value-split-by 的值拆分为Array
+          var value = element.value.split(currently_processing_element.getAttribute("value-split-by").trim());
         } else {
           var value = element.value;
         }
@@ -79,7 +80,46 @@
 
   })
 
-  
+  //验证表单内容合法性
+  function update_validate_information (event){
+    let url_conf = event.target.getAttribute('validate-data');
+    let url_value = $(event.target).serializeArray()[0].value;
+    fetch('/validate_value?'+ url_conf + '=' + url_value).then((response) => {
+      response.text().then((text) => {
+        let hidden_div = event.target.parentElement.querySelector('div.alert');
+        let reason = event.target.parentElement.querySelector('.reason')
+
+        if (text === "validated"){
+          hidden_div.setAttribute('hidden','')
+        }else{
+          reason.innerHTML = text;
+          hidden_div.removeAttribute('hidden');
+        }
+    });
+    })
+  }
+
+  const validate_input = property_form.querySelectorAll('[validate-data]');
+
+  // 在用户输入时触发上面的 update_validate_information 函数
+  validate_input.forEach(element => {
+    element.addEventListener('input', (event) => {
+      if (event.target.hasAttribute('validate-strategy') && event.target.getAttribute('validate-strategy') === 'input') {
+        update_validate_information(event);
+      }
+
+    })
+  })
+
+  validate_input.forEach(element =>{
+    element.addEventListener('change',(event)=>{
+      if (event.target.hasAttribute('validate-strategy') && event.target.getAttribute('validate-strategy') === 'change'){
+        event.target.setAttribute('validate-strategy','input')
+        update_validate_information(event);
+      }
+
+    })
+  })
 
 </script>
 {% endblock %}
