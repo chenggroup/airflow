@@ -1566,6 +1566,8 @@ class Airflow(AirflowBaseView):
         # 检查元素名是否合法
         if 'elements' in request.args:
             value = request.args['elements'].strip()
+            # 记得转义
+            value = str(Markup.escape(value))
             # 检查是否有中文逗号
             commas_warning = ''
             if '，' in value:
@@ -1584,6 +1586,8 @@ class Airflow(AirflowBaseView):
         # 检查是否存在对应文件/路径
         elif 'file' in request.args:
             value = request.args['file'].strip()
+            # 记得转义
+            value = str(Markup.escape(value))
             if os.path.isfile(value):
                 return 'validated'
             else:
