@@ -1586,12 +1586,11 @@ class Airflow(AirflowBaseView):
         # 检查是否存在对应文件/路径
         elif 'file' in request.args:
             value = request.args['file'].strip()
-            # 记得转义
-            value = str(Markup.escape(value))
             if os.path.isfile(value):
                 return 'validated'
             else:
-                return f'服务器上没有<code>{value}</code>文件！'
+                # 在这里转义
+                return f'服务器上没有<code>{str(Markup.escape(value))}</code>文件！'
         else:
             return '未定义检查方法'
 
