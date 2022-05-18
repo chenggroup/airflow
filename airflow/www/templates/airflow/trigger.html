@@ -123,6 +123,36 @@
     })
   })
 
+
+  // 自动补全相关
+  const autocomplete_input = property_form.querySelectorAll('[auto-complete]');
+
+  function autosuggest(event) {
+    let url_conf = encodeURIComponent(event.target.getAttribute('auto-complete'));
+    let url_value = encodeURIComponent($(event.target).serializeArray()[0].value);
+    fetch('/autocomplete?'+ url_conf + '=' + url_value).then((response) => {
+      response.text().then((text) => {
+        let datalist = event.target.parentElement.querySelector('datalist');
+        if (text != 'No such file or directory'){
+          dir_list = JSON.parse(text);
+          datalist.innerHTML = ''
+          dir_list.forEach(element=>{
+            let option = document.createElement("option");
+            option.innerText = element;
+            datalist.appendChild(option);
+          })
+        }
+
+
+      })
+      })
+  }
+
+  autocomplete_input.forEach(element => {
+    element.addEventListener('input', autosuggest)
+  })
+
+
 </script>
 {% endblock %}
 

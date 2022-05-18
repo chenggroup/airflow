@@ -39,7 +39,9 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control property" id="input4"
                                placeholder="例如：/data/aiida_test/test_nmr/notes/data/tutorial/na_data_200/model_test"
-                               name="model" validate-strategy="change" validate-data="file">
+                               name="model" validate-strategy="change" validate-data="file" auto-complete="file" list="file-suggest">
+                        <datalist id="file-suggest">
+                        </datalist>
                         <div class="alert alert-warning" role="alert" hidden>
                           <p class="reason"></p>
                           <p>

@@ -49,16 +49,21 @@ http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
                 <div class="form-group">
                     <label for="input3" class="col-sm-2 control-label">elements</label>
                     <div class="col-sm-10">
+                        
+                        <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K" name="elements" 
+                        value-split-by="," validate-date="elements" auto-complete="file" list="file-suggest">
+                        {# value-split-by="," 属性表示此input输入的内容会以","为间隔断开，组成Array（后端会自动解析为Python list） #} 
+                        {# validate-date="elements"属性表示此文本内容会发送给后端的 /validate_data 并在其中使用 elements 对应的部分进行检查 #}
+                        {# auto-complete="file" 表示此文本内容会发送给后端的 /autocomplete 并在其中使用 file 对应的部分进行自动补全 #}
+                        {# list="file-suggest" 表示自动补全的内容与下面的 <datalist id="file-suggest"> 关联 #}
+                        <datalist id="file-suggest">
+                        </datalist>
                         <div class="alert alert-info" role="alert" type="hidden">
                             <p class="message"></p>
                             <p>
                                 如果您认为输入内容无误，您可以忽略此条消息，直接上传
                             </p>
                         </div>
-                        <input type="text" class="form-control property" id="input3" placeholder="请以英文逗号分隔。例如：Li,Na,K" name="elements" 
-                        value-split-by="," validate-date="elements">
-                        {# value-split-by="," 属性表示此input输入的内容会以","为间隔断开，组成Array（后端会自动解析为Python list） #} 
-                        {# validate-date="elements"属性表示此文本内容会发送给后端的 /validate_data 并在其中使用 elements 对应的部分进行检查 #}
                     </div>
                 </div>
 

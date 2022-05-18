@@ -1594,7 +1594,27 @@ class Airflow(AirflowBaseView):
         else:
             return '未定义检查方法'
 
-
+    @expose('/autocomplete', methods=['GET'])
+    def autocomplete(self):
+        if 'file' in request.args:
+            value = request.args['file'].strip()
+            try:
+                dir_list = os.listdir(value)
+                dir_list.sort()
+                dir_list = [os.path.join(value, x) for x in dir_list]
+                return json.dumps(dir_list)
+            except (FileNotFoundError, NotADirectoryError):
+                if '/' in value:
+                    value = value[:value.rfind('/')+1]
+                try:
+                    dir_list = os.listdir(value)
+                    dir_list.sort()
+                    dir_list = [value+x for x in dir_list]
+                    return json.dumps(dir_list)
+                except (FileNotFoundError, NotADirectoryError):
+                    return 'No such file or directory'
+        else:
+            return '无对应自动补全方法'
 
     def _clear_dag_tis(
         self, dag, start_date, end_date, origin, recursive=False, confirmed=False, only_failed=False
